@@ -1,0 +1,151 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int n,r;
+struct frame
+{
+        char ack;
+        int data;
+}frm[10];
+
+
+void sender()
+{
+        int i;
+        printf("\nEnter the no. of packets to be sent:");
+        scanf("%d",&n);
+        for(i=1;i<=n;i++)
+        {
+                printf("\nEnter data for packets[%d]: ",i);
+                scanf("%d",&frm[i].data);
+                frm[i].ack='y';
+        }
+}
+void recvack()
+{
+        int i;
+        r=rand()%n;
+        frm[r].ack='n';
+        for(i=1;i<=n;i++)
+        {
+                if(frm[i].ack=='n')
+                        printf("\nThe packet number %d is not received\n",r);
+                else
+                        printf("\nThe packet number %d is recieved having data %d\n",i,frm[i].data);
+        }
+}
+void resend()
+{
+        printf("\nResending packet %d",r);
+        sleep(2);
+        frm[r].ack='y';
+        printf("\nThe received packet is %d having data %d",r,frm[r].data);
+}
+int main()
+{
+        sender();
+        recvack();
+        resend();
+        printf("\nAll packets sent successfully\n");
+        return 0;
+}
+
+
+
+
+
+------stopNWait------------
+
+
+
+#include <stdio.h>
+#include<stdlib.h>
+#include <unistd.h>
+int main()
+{
+    int frames,nak,timeExp,i,flag = 0 ;
+    printf("Enter the number of frames to send\n");
+    scanf("%d",&frames);
+    nak = rand() % frames;
+    timeExp = rand() % frames;
+    printf("Sending frames..\n");
+    for(i = 1 ; i <= frames ; i++)
+    {
+        printf("Sending frame %d..\n",i);
+        if(i == nak)
+        {
+            printf("Acknowledgement for frame %d not received\nResending the frame..",i);
+
+
+        }
+
+        sleep(3);
+        if(i == timeExp)
+            printf("Timer expired..Resending the frame\n");
+        printf("Acknowledgement for frame %d received..\n",i);
+    }
+
+}
+
+
+
+
+-------Selective repeat----------
+
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+#include<unistd.h>
+
+int n,r;
+struct frame{
+char ack;
+int data;}frm[10];
+
+int sender(void);
+void recvack(void);
+void resend(void);
+
+void selective(void);
+
+int main()
+{
+        selective();
+}
+
+void selective(){
+sender();
+recvack();
+resend();
+printf("\nAll packets sent successfully");
+}
+
+int sender(){
+int i;
+printf("\nEnter the no. of packets to be sent:");
+scanf("%d",&n);
+for(i=1;i<=n;i++){printf("\nEnter data for packets[%d]",i);
+scanf("%d",&frm[i].data);frm[i].ack='y';
+}
+return 0;
+}
+
+void recvack(){
+int i;
+rand();
+r=rand()%n;
+frm[r].ack='n';
+for(i=1;i<=n;i++)
+{
+if(frm[i].ack=='n')
+printf("\nThe packet number %d is not received\n",r);
+}
+}
+
+void resend(){
+printf("\nresending packet %d",r);
+sleep(2);
+frm[r].ack='y';
+printf("\nThe received packet is %d",frm[r].data);
+}
+      
